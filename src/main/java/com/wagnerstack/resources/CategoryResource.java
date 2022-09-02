@@ -14,6 +14,7 @@ import com.wagnerstack.entities.Category;
 public class CategoryResource {
 
 	@RequestMapping(method = RequestMethod.GET)
+	
 	public List<Category> list() {
 		
 		Category cat1 = new Category(1, "Informática");

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wagnerstack.entities.Category;
 import com.wagnerstack.repositories.CategoryRepository;
+import com.wagnerstack.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryServices {
@@ -18,7 +19,8 @@ public class CategoryServices {
 	
 	public Category find(Integer id) {
 		Optional<Category> item = categoryRepository.findById(id);
-		return item.orElse(null);
+		
+		return item.orElseThrow(() -> new ObjectNotFoundException("ID não encontrato!"));
 	}
 	
 	public List<Category> findAll() {

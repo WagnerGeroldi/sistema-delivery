@@ -9,37 +9,49 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Category implements Serializable {
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String name;
-	
-	@ManyToMany(mappedBy = "categories")
-	List<Product> products = new ArrayList<>();
+	Double price;
 
-	public Category() {
+	@ManyToMany
+	
+	@JoinTable(name = "Product_Category",
+	
+	joinColumns = @JoinColumn(
+			name = "product_id"),
+	inverseJoinColumns = @JoinColumn(
+			name = "category_id")
+	)
+	List<Category> categories = new ArrayList<>();
+
+	public Product() {
 
 	}
 
-	public Category(Integer id, String name) {
+	public Product(Integer id, String name, Double price) {
+
 		this.id = id;
 		this.name = name;
-	}
-	
-
-	public List<Product> getProducts() {
-		return products;
+		this.price = price;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public Integer getId() {
@@ -57,9 +69,14 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
 	@Override
 	public int hashCode() {
@@ -74,13 +91,8 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
-	}
-
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + "]";
 	}
 
 }

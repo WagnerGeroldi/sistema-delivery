@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wagnerstack.entities.Category;
-import com.wagnerstack.services.CategoryServices;
+import com.wagnerstack.entities.Product;
+import com.wagnerstack.services.ProductServices;
 
 @RestController
-@RequestMapping(value = "/category")
-public class CategoryResource {
+@RequestMapping(value = "/product")
+public class ProductResource {
 
 	@Autowired
-	private CategoryServices service;
+	private ProductServices service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Category> find(@PathVariable Integer id) {
+	public ResponseEntity<Product> find(@PathVariable Integer id) {
 
-		Category obj = service.find(id);
+		Product obj = service.find(id);
 
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Category>> findAll() {
+	public ResponseEntity<List<Product>> findAll() {
 
-		List<Category> obj = service.findAll();
+		List<Product> obj = service.findAll();
 
 		return ResponseEntity.ok().body(obj);
 	}

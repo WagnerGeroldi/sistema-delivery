@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.wagnerstack.entities.Address;
 import com.wagnerstack.entities.Category;
 import com.wagnerstack.entities.City;
+import com.wagnerstack.entities.Client;
 import com.wagnerstack.entities.Country;
 import com.wagnerstack.entities.Product;
+import com.wagnerstack.entities.enums.ClientType;
+import com.wagnerstack.repositories.AddressRepository;
 import com.wagnerstack.repositories.CategoryRepository;
 import com.wagnerstack.repositories.CityRepository;
+import com.wagnerstack.repositories.ClientRepository;
 import com.wagnerstack.repositories.CountryRepository;
 import com.wagnerstack.repositories.ProductRepository;
 
@@ -30,7 +35,13 @@ public class TestConfig implements CommandLineRunner {
 	CountryRepository countryRepository;
 	
 	@Autowired
+	AddressRepository addressRepository;
+	
+	@Autowired
 	CityRepository cityRepository;
+	
+	@Autowired
+	ClientRepository clientRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -63,8 +74,23 @@ public class TestConfig implements CommandLineRunner {
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		Client cli1 = new Client(null, "Wagner Geroldi", "wagnergeroldi@gmail.com", "02221973070", ClientType.PESSOAFISICA);
+		
+		cli1.getPhones().addAll(Arrays.asList("996366433","999775753"));
+		
+		Address ad1 = new Address(null, "Av Arthur Oscar", "Centro", "2210", "Apto 502", "99250000", cli1, cy1);
+		Address ad2 = new Address(null, "Av Arthur Oscar", "Centro", "2210", "Apto 402", "99250000", cli1, cy2);
+		
+		cli1.getAdresses().addAll(Arrays.asList(ad1,ad2));
+		
+		
+		
 		countryRepository.saveAll(Arrays.asList(co1, co2));
 		cityRepository.saveAll(Arrays.asList(cy1, cy2, cy3));
+		
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(ad1, ad2));
 
 	}
 

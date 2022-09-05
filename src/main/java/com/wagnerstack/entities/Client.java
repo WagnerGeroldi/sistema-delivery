@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.wagnerstack.entities.enums.ClientType;
 
@@ -27,15 +30,19 @@ public class Client implements Serializable {
 	String cpfOrCnpj;
 	Integer type;
 
+	
+	@OneToMany(mappedBy = "client")
 	List<Address> adresses = new ArrayList<>();
 
+	@ElementCollection
+	@CollectionTable(name="table_phones")
 	Set<String> phones = new HashSet<>();
 
 	public Client() {
 
 	}
 
-	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, List<Address> adresses) {
+	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type) {
 		this.id = id;
 		this.name = name;
 		this.email = email;

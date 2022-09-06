@@ -20,12 +20,12 @@ public class Category implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-	String name;
+	private Integer id;
+	private String name;
 	
 	@JsonManagedReference
 	@ManyToMany(mappedBy = "categories")
-	List<Product> products = new ArrayList<>();
+	private List<Product> products = new ArrayList<>();
 
 	public Category() {
 

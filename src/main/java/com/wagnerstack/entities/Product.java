@@ -22,12 +22,11 @@ public class Product implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-	String name;
-	Double price;
+	private Integer id;
+	private String name;
+	private Double price;
 
 	@ManyToMany
-	
 	@JoinTable(name = "Product_Category",
 	
 	joinColumns = @JoinColumn(
@@ -37,7 +36,7 @@ public class Product implements Serializable {
 	)
 	
 	@JsonBackReference
-	List<Category> categories = new ArrayList<>();
+	private List<Category> categories = new ArrayList<>();
 
 	public Product() {
 

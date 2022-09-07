@@ -19,7 +19,7 @@ public class TicketPayment extends Payment {
 
 	}
 
-	public TicketPayment(Integer id, StatePayment statePayment, Order order, Date dueDate, Date paymentDate) {
+	public TicketPayment(Integer id, StatePayment statePayment, Pedido order, Date dueDate, Date paymentDate) {
 		super(id, statePayment, order);
 		this.dueDate = dueDate;
 		this.paymentDate = paymentDate;

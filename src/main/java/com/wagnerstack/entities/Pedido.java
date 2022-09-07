@@ -13,35 +13,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Order implements Serializable {
+public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private Date instant;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy= "order")
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Payment payment;
 
+	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name="client_id")
+	@JoinColumn(name = "client_id")
 	private Client client;
 
-	@OneToOne
-	@JoinColumn(name="delivery_address_id")
+	@ManyToOne
+	@JoinColumn(name = "delivery_address_id")
 	private Address deliveryAddress;
 
-	public Order() {
+	public Pedido() {
 
 	}
 
-	public Order(Integer id, Date instant, Client client, Address deliveryAddress) {
+	public Pedido(Integer id, Date instant, Client client, Address deliveryAddress) {
 
 		this.id = id;
 		this.instant = instant;
@@ -102,7 +105,7 @@ public class Order implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Order other = (Order) obj;
+		Pedido other = (Pedido) obj;
 		return Objects.equals(id, other.id);
 	}
 

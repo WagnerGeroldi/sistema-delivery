@@ -15,7 +15,7 @@ import com.wagnerstack.entities.enums.StatePayment;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Payment implements Serializable {
+public abstract class Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,22 +23,23 @@ public class Payment implements Serializable {
 	@Id
 	private Integer id;
 	
-	private StatePayment statePayment;
+	private Integer statePayment;
 
+	
 	@OneToOne
-	@JoinColumn(name= "order_id")
+	@JoinColumn(name= "pedido_id")
 	@MapsId
-	private Order order;
+	private Pedido pedido;
 
 	public Payment() {
 
 	}
 
-	public Payment(Integer id, StatePayment statePayment, Order order) {
+	public Payment(Integer id, StatePayment statePayment, Pedido order) {
 
 		this.id = id;
-		this.statePayment = statePayment;
-		this.order = order;
+		this.statePayment = statePayment.getCode();
+		this.pedido = order;
 	}
 
 	public Integer getId() {
@@ -50,19 +51,19 @@ public class Payment implements Serializable {
 	}
 
 	public StatePayment getStatePayment() {
-		return statePayment;
+		return StatePayment.toEnum(statePayment);
 	}
 
 	public void setStatePayment(StatePayment statePayment) {
-		this.statePayment = statePayment;
+		this.statePayment = statePayment.getCode();
 	}
 
-	public Order getOrder() {
-		return order;
+	public Pedido getOrder() {
+		return pedido;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrder(Pedido order) {
+		this.pedido = order;
 	}
 
 	@Override

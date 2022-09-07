@@ -1,5 +1,6 @@
 package com.wagnerstack.config;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.wagnerstack.entities.Category;
 import com.wagnerstack.entities.City;
 import com.wagnerstack.entities.Client;
 import com.wagnerstack.entities.Country;
+import com.wagnerstack.entities.Payment;
+import com.wagnerstack.entities.PaymentWithCard;
+import com.wagnerstack.entities.Pedido;
 import com.wagnerstack.entities.Product;
+import com.wagnerstack.entities.TicketPayment;
 import com.wagnerstack.entities.enums.ClientType;
+import com.wagnerstack.entities.enums.StatePayment;
 import com.wagnerstack.repositories.AddressRepository;
 import com.wagnerstack.repositories.CategoryRepository;
 import com.wagnerstack.repositories.CityRepository;
 import com.wagnerstack.repositories.ClientRepository;
 import com.wagnerstack.repositories.CountryRepository;
+import com.wagnerstack.repositories.PaymentRepository;
+import com.wagnerstack.repositories.PedidoRepository;
 import com.wagnerstack.repositories.ProductRepository;
 
 @Configuration
@@ -42,6 +50,12 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -91,6 +105,23 @@ public class TestConfig implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(ad1, ad2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 11:02"), cli1, ad2);
+		
+		Payment pay1 = new PaymentWithCard(null, StatePayment.PAID, ped1, 6);
+		ped1.setPayment(pay1);	
+		Payment pay2 = new TicketPayment(null, StatePayment.PENDING, ped2, sdf.parse("20/10/2017 10:00"), null);
+		ped2.setPayment(pay2);
+		 
+		cli1.getOrders().addAll(Arrays.asList(ped1, ped2));
+		
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+		
 
 	}
 

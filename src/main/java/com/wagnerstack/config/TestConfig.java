@@ -13,6 +13,7 @@ import com.wagnerstack.entities.Category;
 import com.wagnerstack.entities.City;
 import com.wagnerstack.entities.Client;
 import com.wagnerstack.entities.Country;
+import com.wagnerstack.entities.OrderItem;
 import com.wagnerstack.entities.Payment;
 import com.wagnerstack.entities.PaymentWithCard;
 import com.wagnerstack.entities.Pedido;
@@ -25,6 +26,7 @@ import com.wagnerstack.repositories.CategoryRepository;
 import com.wagnerstack.repositories.CityRepository;
 import com.wagnerstack.repositories.ClientRepository;
 import com.wagnerstack.repositories.CountryRepository;
+import com.wagnerstack.repositories.OrderItemRepository;
 import com.wagnerstack.repositories.PaymentRepository;
 import com.wagnerstack.repositories.PedidoRepository;
 import com.wagnerstack.repositories.ProductRepository;
@@ -56,6 +58,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	PaymentRepository paymentRepository;
+	
+	@Autowired
+	OrderItemRepository orderItemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -122,6 +127,21 @@ public class TestConfig implements CommandLineRunner {
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 		
+		
+		
+		OrderItem ip1 = new OrderItem(ped1, p1, 0.0, 1, 2000.00);
+		OrderItem ip2 = new OrderItem(ped1, p3, 0.0, 2, 80.00);
+		OrderItem ip3 = new OrderItem(ped2, p2, 100.0, 1, 800.00);
+		
+		ped1.getItems().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItems().addAll(Arrays.asList(ip3));
+		
+		
+		p1.getItems().addAll(Arrays.asList(ip1));
+		p2.getItems().addAll(Arrays.asList(ip3));
+		p3.getItems().addAll(Arrays.asList(ip2));
+		
+		orderItemRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 	}
 

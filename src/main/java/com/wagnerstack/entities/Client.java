@@ -15,7 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wagnerstack.entities.enums.ClientType;
 
 @Entity
@@ -31,8 +31,6 @@ public class Client implements Serializable {
 	private String cpfOrCnpj;
 	private Integer type;
 
-	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "client")
 	private List<Address> adresses = new ArrayList<>();
 
@@ -40,7 +38,7 @@ public class Client implements Serializable {
 	@CollectionTable(name="table_phones")
 	private Set<String> phones = new HashSet<>();
 	
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Pedido> orders = new ArrayList<>();	
 

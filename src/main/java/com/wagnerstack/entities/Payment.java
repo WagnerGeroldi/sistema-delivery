@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wagnerstack.entities.enums.StatePayment;
 
 @Entity
@@ -19,15 +20,14 @@ public abstract class Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	private Integer id;
-	
+
 	private Integer statePayment;
 
-	
+	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name= "pedido_id")
+	@JoinColumn(name = "pedido_id")
 	@MapsId
 	private Pedido pedido;
 

@@ -2,7 +2,9 @@ package com.wagnerstack.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,10 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Pedido implements Serializable {
@@ -25,13 +27,12 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instant;
 
-	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Payment payment;
 
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
@@ -39,6 +40,9 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "delivery_address_id")
 	private Address deliveryAddress;
+
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<OrderItem> items = new HashSet<>();
 
 	public Pedido() {
 
@@ -50,6 +54,14 @@ public class Pedido implements Serializable {
 		this.instant = instant;
 		this.client = client;
 		this.deliveryAddress = deliveryAddress;
+	}
+
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
 	}
 
 	public Integer getId() {

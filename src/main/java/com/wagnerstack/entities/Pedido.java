@@ -30,16 +30,20 @@ public class Pedido implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instant;
 
+	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Payment payment;
+
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
 
+
 	@ManyToOne
 	@JoinColumn(name = "delivery_address_id")
 	private Address deliveryAddress;
+
 
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<OrderItem> items = new HashSet<>();

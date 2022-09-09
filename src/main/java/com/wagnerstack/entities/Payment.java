@@ -1,7 +1,6 @@
 package com.wagnerstack.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,7 +22,7 @@ public abstract class Payment implements Serializable {
 	@Id
 	private Integer id;
 
-	private Integer statePayment;
+	private StatePayment statePayment;
 
 	@JsonIgnore
 	@OneToOne
@@ -35,11 +34,11 @@ public abstract class Payment implements Serializable {
 
 	}
 
-	public Payment(Integer id, StatePayment statePayment, Pedido order) {
-
+	public Payment(Integer id, StatePayment statePayment, Pedido pedido) {
+		super();
 		this.id = id;
-		this.statePayment = statePayment.getCode();
-		this.pedido = order;
+		this.statePayment = statePayment;
+		this.pedido = pedido;
 	}
 
 	public Integer getId() {
@@ -51,36 +50,19 @@ public abstract class Payment implements Serializable {
 	}
 
 	public StatePayment getStatePayment() {
-		return StatePayment.toEnum(statePayment);
+		return statePayment;
 	}
 
-	public void setStatePayment(StatePayment statePayment) {
-		this.statePayment = statePayment.getCode();
+	public void setStatePaymentTest(StatePayment statePayment) {
+		this.statePayment = statePayment;
 	}
 
-	public Pedido getOrder() {
+	public Pedido getPedido() {
 		return pedido;
 	}
 
-	public void setOrder(Pedido order) {
-		this.pedido = order;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Payment other = (Payment) obj;
-		return Objects.equals(id, other.id);
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
 }

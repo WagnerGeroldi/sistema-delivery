@@ -23,9 +23,16 @@ public class CategoryServices {
 		return item.orElseThrow(() -> new ObjectNotFoundException("ID não encontrato!"));
 	}
 	
+	public Category insert(Category obj) {
+		obj.setId(null);
+		return categoryRepository.save(obj);
+	}
+	
 	public List<Category> findAll() {
 		return categoryRepository.findAll();
 
 	}
+	
+	
 
 }

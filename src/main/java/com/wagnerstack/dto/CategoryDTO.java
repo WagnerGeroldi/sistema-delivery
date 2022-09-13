@@ -1,6 +1,9 @@
 package com.wagnerstack.dto;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.wagnerstack.entities.Category;
 
@@ -9,6 +12,9 @@ public class CategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message="Não pode ficar vazio")
+	@Length(min=5, max=50, message="O tamanho deve ser entre 5 e 50 caracteres")
 	private String name;
 
 	public CategoryDTO() {

@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.wagnerstack.dto.CategoryDTO;
 import com.wagnerstack.entities.Category;
 import com.wagnerstack.repositories.CategoryRepository;
 import com.wagnerstack.services.exceptions.DataIntegrityException;
@@ -59,6 +60,10 @@ public class CategoryServices {
 		return categoryRepository.findAll(pageRequest);
 
 
+	}
+	
+	public Category fromDTO(CategoryDTO objDto) {
+		return new Category(objDto.getId(), objDto.getName());
 	}
 
 }

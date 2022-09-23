@@ -1,5 +1,6 @@
 package com.wagnerstack.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.wagnerstack.dto.ClientDTO;
+import com.wagnerstack.dto.ClientNewDTO;
 import com.wagnerstack.entities.Client;
 import com.wagnerstack.services.ClientServices;
 
@@ -32,6 +35,18 @@ public class ClientResource {
 		Client obj = service.find(id);
 
 		return ResponseEntity.ok().body(obj);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO objDto) {
+
+		Client obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+
+		return ResponseEntity.created(uri).build();
+
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -56,14 +71,12 @@ public class ClientResource {
 		List<ClientDTO> listDTO = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity<Page<ClientDTO>> findPerPage(
-			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue="12")Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue="name")String orderBy,
-			@RequestParam(value="direction", defaultValue="ASC")String direction) 
-	{
+	public ResponseEntity<Page<ClientDTO>> findPerPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Client> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<ClientDTO> listDTO = list.map(obj -> new ClientDTO(obj));
 		return ResponseEntity.ok().body(listDTO);

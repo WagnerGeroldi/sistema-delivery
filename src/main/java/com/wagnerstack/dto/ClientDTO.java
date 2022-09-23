@@ -8,7 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.wagnerstack.entities.Client;
+import com.wagnerstack.services.validation.ClientUpdate;
 
+
+@ClientUpdate
 public class ClientDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +34,7 @@ public class ClientDTO implements Serializable {
 		
 		this.id = obj.getId();
 		this.name = obj.getName();
-		this.email = obj.getEmail();
+		this.email = obj.getEmail(); 
 
 	}
 

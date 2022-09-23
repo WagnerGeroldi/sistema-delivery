@@ -5,9 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.wagnerstack.entities.enums.StatePayment;
 
 @Entity
+@JsonTypeName("ticketPayment")
 public class TicketPayment extends Payment {
 
 	private static final long serialVersionUID = 1L;
